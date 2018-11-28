@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="card" *ngIf="selectedPost">
+        <div class="card-body">
+            <form>
+                <div class="form-group">
+                    <label for="title">Post Title</label>
+                    <input type="text" class="form-control" name="post_title" [(ngModel)]="selectedPost.post_title" id="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="Content">Post Description</label>
+                    <textarea class="form-control" name="post_description" [(ngModel)]="selectedPost.post_description" id="description" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="Content">Post Content</label>
+                  <textarea class="form-control" name="post_content" [(ngModel)]="selectedPost.post_content" id="content" rows="5" required></textarea>
+                </div>
+                <button class="btn btn-info" (click)="onUpdatePost()" type="submit">Update</button>
+                &nbsp;
+                <button class="btn btn-primary" (click)="onToggleDeleteClick()" type="submit">Delete</button>
+            </form>
+      </div>
+    </div>
+    <br>
+    <h3 class="text-center">Manage Your Posts here</h3>
+    <button class="btn btn-link" routerLink = '/manageDeleted' >Manage Deleted</button>
+    <div class="list-group" *ngFor="let post of posts">
+      <a class="list-group-item list-group-item-action" *ngIf="!post.isDeleted" [class.active]="post == selectedPost" (click)="onSelect(post)">
+        <p class="badge">{{post.post_id}}</p>. {{post.post_title}}
+      </a>
+    </div>
+</div>

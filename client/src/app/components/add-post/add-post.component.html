@@ -1,0 +1,27 @@
+<br>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+        <h1 class="text-center">Add a new Post here</h1>
+        <form>
+            <div class="form-group">
+                <label for="title">Post Title</label>
+                <input type="text" class="form-control" name="post_title" [(ngModel)]="post_title" id="title" required>
+            </div>
+            <div class="form-group">
+                <label for="Content">Post Description</label>
+                <textarea class="form-control" name="post_description" [(ngModel)]="post_description" id="description" rows="5" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="Content">Post Content</label>
+              <textarea class="form-control" name="post_content" [(ngModel)]="post_content" id="content" rows="5" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="file">Image</label>
+                <input type="file" class="form-control-file" name="post_image" (change)="onImageChanged($event)" #fileInput id="file" required>
+            </div>
+            <button class="btn btn-info" (click)="onAddNewPost()" type="submit">Save</button>
+        </form>
+    </div>
+    </div>
+</div>

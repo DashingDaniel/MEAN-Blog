@@ -1,0 +1,8 @@
+<div class="container">
+  <h3 class="text-center">Manage all your deleted posts</h3>
+  <div class="list-group" *ngFor="let post of posts">
+    <li class="list-group-item list-group-item-action" *ngIf="post.isDeleted">
+      {{post.post_id}}. <p>{{post.post_title}}</p><button type="button" class="btn btn-outline-success btn-sm" (click)="onToggleDelete(post)">Recover</button>
+    </li>
+  </div>
+</div>
