@@ -28,4 +28,23 @@
         <p class="badge">{{post.post_id}}</p>. {{post.post_title}}
       </a>
     </div>
+    <br><br>
+    <div *ngIf="!editCommentToggle">
+        <h3 class="text-center">Your comments</h3>
+        <div class="list-group">
+            <a *ngFor="let userComment of userComments" class="list-group-item list-group-item-action" (click)="enableCommentEdit(userComment.comment_data,userComment.comment_id)">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{userComment.post_title}}</h5>
+            </div>
+                <p class="mb-1">{{userComment.comment_data}}</p>
+            </a>
+        </div>
+    </div>
+    <div>
+        <div class="form-group" *ngIf="editCommentToggle">
+            <textarea class="form-control" name="comment_data" [(ngModel)]="comment_data" id="comment_data" rows="5" required></textarea>
+            <button class="btn btn-default btn-sm" (click)="saveUpdatedComment()">Save</button>
+        </div>
+    </div>
+    
 </div>

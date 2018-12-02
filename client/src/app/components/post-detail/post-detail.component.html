@@ -10,4 +10,31 @@
     <p class="text-justify font-italic">{{post.post_description}}</p>
     <p class="text-justify">{{post.post_content}}</p>
   </div>
+  <button class="btn btn-primary" (click)="onAddCommentToggle()">Add Comment</button>&nbsp;&nbsp;
+  <button class="btn btn-primary" (click)="onShowComment()">Show Comments</button>
+  <br>
+  <div class="card" *ngIf="commentFormVisible">
+      <div class="card-body">
+        <form action="">
+          <div class="form-group">
+            <label for="comment">Add Comment</label>
+            <textarea class="form-control" name="comment_data" [(ngModel)]="comment_data" id="comment" rows="5" required></textarea>
+          </div>
+          <button class="btn btn-success" (click)="addNewComment()">Add</button>
+        </form>
+      </div>
+  </div>
+  <div class="card" *ngIf="commentSectionVisible">
+    <div class="card-body">
+      <div class="list-group" *ngFor="let commentResult of commentResults">
+        <li class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{commentResult.user_name}}</h5>
+          </div>
+          <p class="mb-1">{{commentResult.comment_data}}</p>
+        </li>
+        <br>
+      </div>
+    </div>
+  </div>
 </div>

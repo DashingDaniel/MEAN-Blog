@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PostService } from 'src/app/post.service';
 import { Post } from 'src/app/post';
 import {Router} from "@angular/router";
+import { NavbarService } from 'src/app/navbar.service';
 @Component({
   selector: 'app-manage',
   templateUrl: './manage.component.html',
@@ -10,16 +11,33 @@ import {Router} from "@angular/router";
 export class ManageComponent implements OnInit {
   posts: Post[];
   selectedPost: Post;
-  constructor(private postService: PostService, private router: Router) { }
+  userComments:[];
+  comment_data: string;
+  comment_id: number;
+  editCommentToggle: boolean = false;
+  // selectedComment: boolean = false;
+  constructor(private postService: PostService, private router: Router, private nav: NavbarService) { }
 
   ngOnInit() {
-    this.GetAllPosts();
+    this.GetUserPosts();
+    this.GetUserComments();
+    this.nav.show();
+    if(localStorage.getItem('token')==null){
+      this.router.navigate([""])
+    }
   }
 
-  GetAllPosts(){
-    return this.postService.getPosts()
-    .subscribe((results)=>{
-      this.posts = results.json();
+  GetUserPosts(){
+    return this.postService.getUserPosts()
+    .subscribe((results:Post[])=>{
+      this.posts = results;
+    })
+  }
+
+  GetUserComments(){
+    return this.postService.getUserComments()
+    .subscribe((results:[])=>{
+      this.userComments = results;
     })
   }
 
@@ -28,21 +46,40 @@ export class ManageComponent implements OnInit {
     console.log(this.selectedPost);
   }
   onUpdatePost(){
-    return this.postService.updatePost(this.selectedPost,this.selectedPost.post_id)
-    .subscribe((result)=>{
-      console.log(result.json());
+    this.postService.updatePost(this.selectedPost,this.selectedPost.post_id)
+    .subscribe((result:Post[])=>{
+      // changed
+      console.log(result);
       
     })
+    this.selectedPost = null;
   }
 
   onToggleDeleteClick(){
     console.log('Delete Button Clicked');
     return this.postService.toggleDelete(this.selectedPost.post_id)
-    .subscribe((result)=>{
-      console.log(result.json().msg);
-      if(result.json().msg == 'result updated'){
+    .subscribe((result:any)=>{
+      console.log(result);
+      if(result.msg == 'result updated'){
         this.selectedPost = null;
-        this.GetAllPosts();
+        this.GetUserPosts();
+      }
+    })
+  }
+
+  enableCommentEdit(comment_data,comment_id){
+    this.comment_data = comment_data;
+    this.comment_id = comment_id;
+    this.editCommentToggle = true;
+    // this.selectedComment = true;
+  }
+
+  saveUpdatedComment(){
+    this.postService.updateComment(this.comment_data,this.comment_id)
+    .subscribe((result:any)=>{
+      if(result.msg == 'Comment updated successfully'){
+        this.editCommentToggle = false;
+        this.ngOnInit();
       }
     })
   }

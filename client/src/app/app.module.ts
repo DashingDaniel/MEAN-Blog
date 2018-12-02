@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddPostComponent } from './components/add-post/add-post.component';
@@ -10,6 +10,9 @@ import { PostDetailComponent } from './components/post-detail/post-detail.compon
 import { NavComponent } from './components/nav/nav.component';
 import { ManageComponent } from './components/manage/manage.component';
 import { DeletedItemsComponent } from './components/deleted-items/deleted-items.component';
+import { SearchListComponent } from './components/search-list/search-list.component';
+import { RegisterLoginComponent } from './components/register-login/register-login.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -19,13 +22,16 @@ import { DeletedItemsComponent } from './components/deleted-items/deleted-items.
     PostDetailComponent,
     NavComponent,
     ManageComponent,
-    DeletedItemsComponent
+    DeletedItemsComponent,
+    SearchListComponent,
+    RegisterLoginComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpModule
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

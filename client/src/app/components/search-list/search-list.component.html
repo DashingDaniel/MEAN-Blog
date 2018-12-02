@@ -1,0 +1,22 @@
+<div *ngIf="!results">
+  <h1>Sorry no results match your search try again</h1>
+</div>
+<div *ngIf="results">
+  <h1 class="text-center">Your Results</h1>
+  <div class="container" *ngFor="let result of results">
+    <div *ngIf="!result.isDeleted">
+    <h2 class="text-center p-4">{{result.post_id}}. {{result.post_title}}</h2>
+    <div class="row">
+      <div class="col">
+          <img src="{{result.post_image}}" class="img-fluid" alt="{{result.post_title}}">
+      </div>
+      <div class="col">
+        <p class="lead">{{result.post_description}}</p>
+        <a [routerLink]="[ '/postDetail', result.post_id ]" class="btn btn-primary">Read More</a>
+        <!-- <button class="btn btn-primary">Read More</button> -->
+      </div>
+    </div>
+    </div>
+    <br>
+  </div>
+</div>

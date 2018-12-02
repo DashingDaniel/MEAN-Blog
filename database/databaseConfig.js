@@ -1,3 +1,5 @@
+// config stuffs related to databases passwords and database names
+
 const mysql      = require('mysql');
 const connection = mysql.createConnection({
   host     : 'localhost',
