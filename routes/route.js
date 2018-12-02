@@ -191,5 +191,12 @@ router.post('/updateComment/:comment_id', upload.any(),(req,res)=>{
     res.json({msg: "Comment updated successfully"})
 })
 
+router.get('/toggleDeleteComment/:comment_id',(req,res)=>{
+    connection.query('update comment_details set isDeleted = !isDeleted where comment_id ='+req.params.comment_id,function(err, result){
+        if(err) throw err;
+    })
+
+    res.json({msg:"result updated"})
+});
 
 module.exports = router;

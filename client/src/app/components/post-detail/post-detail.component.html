@@ -26,13 +26,15 @@
   </div>
   <div class="card" *ngIf="commentSectionVisible">
     <div class="card-body">
-      <div class="list-group" *ngFor="let commentResult of commentResults">
+      <div class="list-group" *ngFor="let commentResult of commentResults" >
+        <div *ngIf="!commentResult.isDeleted">
         <li class="list-group-item list-group-item-action flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{commentResult.user_name}}</h5>
           </div>
           <p class="mb-1">{{commentResult.comment_data}}</p>
         </li>
+      </div>
         <br>
       </div>
     </div>

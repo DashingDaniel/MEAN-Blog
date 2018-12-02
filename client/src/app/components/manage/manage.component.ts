@@ -83,4 +83,13 @@ export class ManageComponent implements OnInit {
       }
     })
   }
+  deleteComment(comment_id){
+    this.postService.toggleCommentDelete(comment_id)
+    .subscribe((result:any)=>{
+      if(result.msg == 'result updated'){
+        console.log(result.msg);
+        this.ngOnInit();
+      }
+    })
+  }
 }

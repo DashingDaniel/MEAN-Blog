@@ -88,4 +88,8 @@ export class PostService {
     return this.http.post(`http://localhost:3000/api/updateComment/${comment_id}`,uploadData,{headers: httpOptions});
 
   }
+
+  toggleCommentDelete(comment_id){
+    return this.http.get(`http://localhost:3000/api/toggleDeleteComment/${comment_id}`);
+  }
 }
