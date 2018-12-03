@@ -33,7 +33,7 @@
         <h3 class="text-center">Your comments</h3>
         <div class="list-group">
             <li *ngFor="let userComment of userComments" class="list-group-item list-group-item-action">
-            <div *ngIf="!userComment.isDeleted">
+            <div *ngIf="!userComment.commentIsDeleted">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{userComment.post_title}}</h5>
                 </div>

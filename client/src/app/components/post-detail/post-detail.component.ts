@@ -59,6 +59,7 @@ export class PostDetailComponent implements OnInit {
     .subscribe((result:any)=>{
       if(result.msg == 'Comment added successfully'){
         this.commentFormVisible = false;
+        this.ngOnInit();
       }
     })
   }

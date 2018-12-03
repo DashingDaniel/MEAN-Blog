@@ -44,7 +44,8 @@ export class DeletedItemsComponent implements OnInit {
   }
 
   onToggleDeleteComment(comment){
-    this.postService.toggleCommentDelete(comment.comment_id)
+    console.log('Comment id: ',comment.comment_id);
+    return this.postService.toggleCommentDelete(comment.comment_id)
     .subscribe((result:any)=>{
       if(result.msg == 'result updated'){
         this.ngOnInit();

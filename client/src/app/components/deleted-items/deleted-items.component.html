@@ -9,8 +9,8 @@
 <div class="container">
   <h3>Manage all your deleted comments</h3>
   <div class="list-group" *ngFor="let comment of comments">
-    <li class="list-group-item list-group-item-action" *ngIf="comment.isDeleted">
-      <p>{{comment.comment_data}}</p><button type="button" class="btn btn-outline-success btn-sm" (click)="onToggleDeleteComment(comment)">Recover</button>
+    <li class="list-group-item list-group-item-action" *ngIf="comment.commentIsDeleted">
+      <p>{{comment.comment_data}} {{comment.isDeleted}}</p><button type="button" class="btn btn-outline-success btn-sm" (click)="onToggleDeleteComment(comment)">Recover</button>
     </li>
   </div>
 </div>
