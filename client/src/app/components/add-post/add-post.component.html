@@ -16,11 +16,19 @@
               <label for="Content">Post Content</label>
               <textarea class="form-control" name="post_content" [(ngModel)]="post_content" id="content" rows="5" required></textarea>
             </div>
+            <div *ngFor="let tag of tags">
+            <div class="form-check">
+                <label class="form-check-label">
+                  <input class="form-check-input" value="tag.id" name="tag.selected" type="checkbox" [(ngModel)]="tag.selected">
+                  {{tag.type}}
+                </label>
+              </div>
+            </div>
             <div class="form-group">
                 <label for="file">Image</label>
                 <input type="file" class="form-control-file" name="post_image" (change)="onImageChanged($event)" #fileInput id="file" required>
             </div>
-            <button class="btn btn-info" (click)="onAddNewPost()" type="submit">Save</button>
+            <button class="btn btn-info" (click)="onAddNewPost()" type="submit" >Save</button>
         </form>
     </div>
     </div>

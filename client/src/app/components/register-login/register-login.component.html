@@ -1,4 +1,4 @@
-<div class="container" *ngIf="!onRegister">
+<div class="container" *ngIf="!onRegister" >
   <div class="card">
     <div class="card-body">
       <h3 class="text-center">Login Here</h3>
@@ -12,6 +12,10 @@
           <input type="password" name="user_password" [(ngModel)]="user_password" class="form-control" id="pwd">
         </div>
         <button type="submit" (click)="onLoginClick()" class="btn btn-primary">Login</button><br>
+        <p>(or)</p>
+        <br>
+        <button class="btn btn-info" (click)="socialSignIn('facebook')">Sign in with Facebook</button>&nbsp;
+        <button class="btn btn-primary" (click)="socialSignIn('google')">Sign in with Google</button>   
         <p>Not a user? </p>
         <button type="submit" class="btn btn-success" (click)="showRegister()">Register</button>
       </form>
@@ -23,20 +27,23 @@
   <div class="card">
     <div class="card-body">
       <h3 class="text-center">Register here</h3>
-      <form>
+      <form  [formGroup] = "form" (ngSubmit)="onRegisterClick()">
         <div class="form-group">
           <label for="user_name">User Name</label>
-          <input required  type="text" class="form-control" name="user_name" [(ngModel)]="user_name" id="user_name">
+          <input required  type="text" class="form-control" formControlName = "user_name" name="user_name" id="user_name">
+          <div class="alert alert-danger" *ngIf="form.get('user_name').touched && form.get('user_name').invalid">User Name is required</div>
         </div>
         <div class="form-group">
           <label for="user_email">Email</label>
-          <input required  type="email" class="form-control" name="user_email" [(ngModel)]="user_email" id="user_email">
+          <input required  type="email" class="form-control" name="user_email" formControlName = "user_email" id="user_email">
+          <div class="alert alert-danger" *ngIf="form.get('user_email').touched && form.get('user_email').errors">Email is required</div>
         </div>
         <div class="form-group">
           <label for="user_phone">Phone Number</label>
-          <input required  type="number" class="form-control" name="user_phone" [(ngModel)]="user_phone" id="user_phone">
+          <input required  type="number" class="form-control" name="user_phone" formControlName = "user_phone" id="user_phone">
         </div>
-        <div class="form-check">
+        <div class="alert alert-danger" *ngIf="form.get('user_phone').touched && form.get('user_phone').errors">Enter a Valid Phone number</div>
+        <!-- <div class="form-check">
           <label class="form-check-label">
             <input required  type="radio" class="form-check-input" name="gender_option" [(ngModel)]="gender_option" id="male" [value]="1">
             Male
@@ -47,12 +54,13 @@
             <input required  type="radio" class="form-check-input" name="gender_option" [(ngModel)]="gender_option" id="female" [value]="2">
             Female
           </label>
-        </div>
+        </div> -->
         <div class="form-group">
           <label for="user_password">Password</label>
-          <input required  type="password" class="form-control" [(ngModel)]="user_password" name="user_password" id="user_password">
+          <input required  type="password" class="form-control" formControlName = "user_password" name="user_password" id="user_password">
         </div>
-        <button type="submit" class="btn btn-primary" (click)="onRegisterClick()">Register</button>
+        <div class="alert alert-danger" *ngIf="form.get('user_password').touched && form.get('user_password').invalid">A password is required</div>
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Register</button>
       </form>
     </div>
   </div>

@@ -8,6 +8,7 @@ import { ManageComponent } from './components/manage/manage.component';
 import { DeletedItemsComponent } from './components/deleted-items/deleted-items.component';
 import { SearchListComponent } from './components/search-list/search-list.component';
 import { RegisterLoginComponent } from './components/register-login/register-login.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const routes: Routes = [
   {path: '', component: RegisterLoginComponent},
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path: 'postDetail/:id', component: PostDetailComponent},
   {path: 'manage', component: ManageComponent},
   {path: 'manageDeleted', component: DeletedItemsComponent},
-  {path: 'searchList/:search_term', component: SearchListComponent}
+  {path: 'searchList/:search_term', component: SearchListComponent},
+  {path: 'profile', component: ProfileComponent}
 ];
 
 @NgModule({

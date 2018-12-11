@@ -1,19 +1,48 @@
 <div>
 <h1 class="text-center">Lorem Ipsum Blog Corner</h1>
-<div class="container" *ngFor="let post of posts">
-  <div *ngIf="!post.isDeleted">
-  <h2 class="text-center p-4">{{post.post_id}}. {{post.post_title}}</h2>
-  <div class="row">
-    <div class="col">
-        <img src="{{post.post_image}}" class="img-fluid" alt="{{post.post_title}}">
+<div class="row">
+  <div class="col-lg-9">
+    <div class="container" *ngFor="let post of posts | paginate: { itemsPerPage: 5, currentPage: p }">
+      <div *ngIf="!post.isDeleted">
+      <h2 class="text-center p-4">{{post.post_id}}. {{post.post_title}}</h2>
+      <div class="row">
+        <div class="col">
+            <img src="{{post.post_image}}" class="img-fluid" alt="{{post.post_title}}">
+        </div>
+        <div class="col">
+          <p class="lead">{{post.post_description}}</p>
+          <p> - {{post.user_name}}</p>
+          <p>Catagory:{{post.post_catagory}}</p>
+          <a [routerLink]="[ '/postDetail', post.post_id ]" class="btn btn-primary">Read More</a>
+          <!-- <button class="btn btn-primary">Read More</button> -->
+        </div>
+      </div>
+      </div>
+      <br>
     </div>
-    <div class="col">
-      <p class="lead">{{post.post_description}}</p>
-      <a [routerLink]="[ '/postDetail', post.post_id ]" class="btn btn-primary">Read More</a>
-      <!-- <button class="btn btn-primary">Read More</button> -->
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+  <div class="col-lg-3" id="sticky-sidebar">
+    <div>
+      <div class="card">
+        <h1 class="card-header">All authors</h1>
+        <div class="card-body" *ngFor="let user of users">
+          <button class="btn btn-link" (click)="searchPostsWithUser(user.user_id)">{{user.user_name}}</button>
+        </div>
+      </div>
+      <div class="card">
+          <h1 class="card-header">Filter by date</h1>
+          <div class="card-body" *ngFor="let date of dates">
+            <button class="btn btn-link" (click)="getPostsByDates(date)">{{date}}</button>
+          </div>
+      </div>
+      <div class="card">
+        <h1 class="card-header">Filter by Catagory</h1>
+        <div class="card-body" *ngFor="let tag of tags">
+          <button class="btn btn-link" (click)="getPostsByTag(tag.type)">{{tag.type}}</button>
+        </div>
+    </div>
     </div>
   </div>
-  </div>
-  <br>
 </div>
 </div>

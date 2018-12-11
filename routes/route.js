@@ -1,4 +1,5 @@
 const express = require('express');
+const { check, validationResult } = require('express-validator/check');
 const connection = require('../database/dataBaseConfig');
 const router =  express.Router();
 const multer = require('multer');
@@ -43,7 +44,8 @@ router.post('/addNewPost',upload.single('post_image'),checkAuth,(req,res)=>{
         post_description: req.body.post_description,
         post_content: req.body.post_content,
         post_image: 'http://localhost:3000/'+req.file.path.slice(7),
-        user_id: req.user.user_id
+        user_id: req.user.user_id,
+        post_catagory: req.body.post_catagory
     }
     connection.query('INSERT INTO post_details SET ?',newPost,function(err,result){
         if(err) throw err;
@@ -53,11 +55,25 @@ router.post('/addNewPost',upload.single('post_image'),checkAuth,(req,res)=>{
 });
 
 router.get('/getAllPosts',(req,res)=>{
-    connection.query('SELECT * from post_details', function(err, result){
+    connection.query('SELECT * from post_details join user_details where post_details.user_id = user_details.user_id', function(err, result){
         if (err) throw err;
         res.json(result);
     })
 });
+
+router.get('/getAllUsers',(req,res)=>{
+    connection.query('select user_name, user_id from user_details',(err,result)=>{
+        if(err) throw err;
+        res.json(result);
+    })
+})
+
+router.get('/getAllUsers/:user_id',(req,res)=>{
+    connection.query(`select * from post_details where user_id = ${req.params.user_id}`,(err,result)=>{
+        if(err) throw err;
+        res.json(result);
+    })
+})
 
 router.get('/getPostById/:post_id',(req,res)=>{
     console.log(req.params.post_id);
@@ -102,8 +118,13 @@ router.get('/searchLikeTitle/:search_term',(req,res)=>{
     })
 });
 
-router.post('/register',(req,res)=>{
+router.post('/register',[check('user_email').isEmail(),
+    check('user_phone').isLength({max: 10})],(req,res)=>{
     bcrypt.hash(req.body.user_password, saltRounds, function(err, hash) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
     let newUser = {
         user_name: req.body.user_name,
         user_email: req.body.user_email,
@@ -198,5 +219,49 @@ router.get('/toggleDeleteComment/:comment_id',(req,res)=>{
 
     res.json({msg:"result updated"})
 });
+
+router.post('/loginGoogleUser',(req,res)=>{
+    const newGoogleUser = {
+        user_name: req.body.user_name,
+        user_email: req.body.user_email
+    }
+    connection.query(`INSERT IGNORE INTO user_details(user_name, user_email) values('${newGoogleUser.user_name}','${newGoogleUser.user_email}') `,(err,result)=>{
+        if(err) throw err;
+        connection.query(`SELECT * FROM user_details where user_email = '${newGoogleUser.user_email}'`,(err, result)=>{
+            if(err) throw err;
+            const token = jwt.sign({
+                user_email: result[0].user_email,
+                user_id: result[0].user_id
+            },
+            keys.jwtSecret,{
+                expiresIn: '1h'
+            })
+            res.json({msg: 'Successfull', token: token})
+        })
+    })
+})
+
+router.get('/getUserInfo',checkAuth,(req,res)=>{
+    connection.query(`SELECT * from user_details ,(SELECT COUNT(*) as post_count from post_details WHERE user_id = ${req.user.user_id}) AS post_count WHERE user_id = ${req.user.user_id}`,(err, result)=>{
+        res.json(result);
+    })
+})
+
+router.post('/changePassword',upload.any(),checkAuth,(req,res)=>{
+    connection.query(`SELECT * from user_details where user_email = '${req.user.user_email}'`, (err, result)=>{
+        bcrypt.compare(req.body.user_password, result[0].user_password, function(err, response){
+            if(response){
+                bcrypt.hash(req.body.user_new_password, saltRounds, function(err, hash) {
+                    connection.query(`UPDATE user_details SET user_password = '${hash}' where user_id = ${req.user.user_id}`,(err,result)=>{
+                        if(err) throw err;
+                        res.json({msg: 'Password Updated'})
+                    })
+                })
+            }else{
+                res.json({msg: 'Password incorrect'})
+            }
+        })
+    })
+})
 
 module.exports = router;

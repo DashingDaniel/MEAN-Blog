@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary" *ngIf="nav.isVisible">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" *ngIf="nav.isVisible">
   
 
   <ul class="navbar-nav">
@@ -13,6 +13,9 @@
     </li>
     <li class="nav-item">
       <a class="nav-link" routerLink = '/manage'>Manage</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink = '/profile'>Profile</a>
     </li>
   </ul>
   <form class="form-inline my-2 my-lg-0">

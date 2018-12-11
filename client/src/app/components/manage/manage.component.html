@@ -21,7 +21,7 @@
       </div>
     </div>
     <br>
-    <h3 class="text-center">Manage Your Posts here</h3>
+    <h3>Manage Your Posts here</h3>
     <button class="btn btn-link" routerLink = '/manageDeleted' >Manage Deleted</button>
     <div class="list-group" *ngFor="let post of posts">
       <a class="list-group-item list-group-item-action" *ngIf="!post.isDeleted" [class.active]="post == selectedPost" (click)="onSelect(post)">
@@ -31,9 +31,9 @@
     <br><br>
     <div *ngIf="!editCommentToggle">
         <h3 class="text-center">Your comments</h3>
-        <div class="list-group">
-            <li *ngFor="let userComment of userComments" class="list-group-item list-group-item-action">
-            <div *ngIf="!userComment.commentIsDeleted">
+        <div class="list-group" *ngFor="let userComment of userComments">
+            <li *ngIf="!userComment.commentIsDeleted" class="list-group-item list-group-item-action">
+            <div >
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{userComment.post_title}}</h5>
                 </div>

@@ -19,6 +19,7 @@ export class SearchListComponent implements OnInit {
     this.getPostBySearchTerm()
   }
   getPostBySearchTerm(){
+    // this.ngOnInit();
     const search_term  = this.route.snapshot.paramMap.get('search_term');
     console.log(search_term);
     this.postService.searchPostsByTitle(search_term)

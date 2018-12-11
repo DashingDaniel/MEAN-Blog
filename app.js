@@ -3,7 +3,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
 const path = require('path');
+// const session = require('express-session');
 const routes = require('./routes/route');
+// const passport = require('passport');
 
 
 const port = 3000;
@@ -20,7 +22,6 @@ app.all('/*', function(req, res, next) {
     next();
 });
 
-//  the routes files are appended with /api so that it allows us to add proxy in the future.
 app.use('/api',routes);
 app.listen(port,()=>{
     console.log('Magic happens at port ',port)

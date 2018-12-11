@@ -13,9 +13,12 @@ export class AddPostComponent implements OnInit {
   post_description: string;
   post_image: File;
   post_content: string;
+  tags:any[] = []
+  post_tags: string = '';
   constructor(private postService: PostService, private router: Router, private nav: NavbarService) { }
 
   ngOnInit() {
+    this.tags = this.postService.tags;
     this.nav.show();
     if(localStorage.getItem('token')==null){
       this.router.navigate([""])
@@ -30,13 +33,19 @@ export class AddPostComponent implements OnInit {
 
   // Small validation just to make sure that the user fills all the necessary inputs and then submits the form
   onAddNewPost(){
+    this.tags.forEach((tag)=>{
+      if(tag.selected){
+        this.post_tags+=' '+tag.type;
+      }
+    })
+    console.log(this.post_tags);
     if(this.post_title == undefined || this.post_description == undefined ||this.post_content == undefined ||this.post_image == undefined ){
       alert('Please fill everything')
     }else{
     // console.log(this.post_title, this.post_description);
     // console.log(event.target);
     // this.post_image = event.target.files[0];
-    this.postService.addPost(this.post_title, this.post_description,this.post_content, this.post_image)
+    this.postService.addPost(this.post_title, this.post_description,this.post_content, this.post_image, this.post_tags)
     .subscribe((result:any)=>{
       console.log(result.msg);
       if(result.msg == 'New Post Added'){

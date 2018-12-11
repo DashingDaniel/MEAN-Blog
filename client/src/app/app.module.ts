@@ -1,7 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider } from 'angular-6-social-login';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddPostComponent } from './components/add-post/add-post.component';
@@ -13,6 +15,23 @@ import { DeletedItemsComponent } from './components/deleted-items/deleted-items.
 import { SearchListComponent } from './components/search-list/search-list.component';
 import { RegisterLoginComponent } from './components/register-login/register-login.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ProfileComponent } from './components/profile/profile.component';
+
+export function getAuthServiceConfigs() {
+  const config = new AuthServiceConfig(
+      [
+        {
+          id: FacebookLoginProvider.PROVIDER_ID,
+          provider: new FacebookLoginProvider('Your facebook login provider.. Means your clientID')
+        },
+        {
+          id: GoogleLoginProvider.PROVIDER_ID,
+          provider: new GoogleLoginProvider('your google clientID')
+        }
+      ]
+  );
+  return config;
+}
 
 @NgModule({
   declarations: [
@@ -25,15 +44,22 @@ import { FooterComponent } from './components/footer/footer.component';
     DeletedItemsComponent,
     SearchListComponent,
     RegisterLoginComponent,
-    FooterComponent
+    FooterComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SocialLoginModule,
+    ReactiveFormsModule,
+    NgxPaginationModule
   ],
-  providers: [],
+  providers: [{
+    provide: AuthServiceConfig,
+    useFactory: getAuthServiceConfigs
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

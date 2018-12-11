@@ -1,0 +1,38 @@
+<div class="jumbotron text-center">
+    <h1 class="display-3">{{userDetails.user_name}}</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <p class="text-center">No of posts made: {{userDetails.post_count}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <p class="text-center">User Email: {{userDetails.user_email}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col" *ngIf="userDetails.user_password">
+            <div class="card">
+                <div class="card-body">
+                    <button *ngIf="!passwordChange" class="btn btn-default" (click)="togglePasswordChange()">Change Password</button>
+                    <div *ngIf="passwordChange">
+                        <form  [formGroup] = "form" (ngSubmit)="changePassword()">
+                            <input type="text" formControlName = "user_password" placeholder="Old Password">
+                            <div class="alert alert-danger" *ngIf="form.get('user_password').touched && form.get('user_password').invalid">Old Password is required</div>
+                            <input type="text" formControlName = "user_new_password" placeholder="New Password">
+                            <div class="alert alert-danger" *ngIf="form.get('user_new_password').touched && form.get('user_new_password').invalid">New Password is required</div>
+                            <button type="submit" class="btn btn-default" [disabled]="form.invalid">Update Password</button>
+                        </form>
+                        <button type="submit" (click)="togglePasswordChange()" class="btn btn-default">Cancel</button>
+                    </div>                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
